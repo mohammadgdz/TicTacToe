@@ -12,23 +12,32 @@ jobs:
     name: Build & Test
     runs-on: macos-latest
 
+    strategy:
+      matrix:
+        device: [ "iPhone 16", "iPhone 15" ]  # Adjust this based on the devices you need.
+
     steps:
+      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Set up Xcode
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
 
+      # Run Unit Tests
       - name: Run Unit Tests
         run: |
           xcodebuild test \
             -project tiktoc.xcodeproj \
             -scheme tiktoc \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+            -destination "platform=iOS Simulator,name=${{ matrix.device }},OS=17.0" \
+            -enableCodeCoverage YES  # Optional: Enables code coverage
 
+      # Build the App (Optional step, to ensure the app is built properly)
       - name: Build App
         run: |
           xcodebuild build \
             -project tiktoc.xcodeproj \
             -scheme tiktoc \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+            -destination "platform=iOS Simulator,name=${{ matrix.device }},OS=17.0"
