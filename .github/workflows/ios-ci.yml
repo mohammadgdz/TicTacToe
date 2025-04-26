@@ -22,13 +22,13 @@ jobs:
       - name: Run Unit Tests
         run: |
           xcodebuild test \
-            -project tiktoc/tiktoc.xcodeproj \
+            -project tiktoc.xcodeproj \
             -scheme tiktoc \
             -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
 
       - name: Build App
         run: |
           xcodebuild build \
-            -project tiktoc/tiktoc.xcodeproj \
+            -project tiktoc.xcodeproj \
             -scheme tiktoc \
             -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
