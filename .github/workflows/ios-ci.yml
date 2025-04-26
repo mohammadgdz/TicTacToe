@@ -1,0 +1,35 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: iOS CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app
+
+      - name: Run Unit Tests
+        run: |
+          xcodebuild test \
+            -project tictoc.xcodeproj \
+            -scheme tictoc \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+
+      - name: Build App
+        run: |
+          xcodebuild build \
+            -project tictoc.xcodeproj \
+            -scheme tictoc \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
